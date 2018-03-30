@@ -150,6 +150,8 @@ public class Catalogo {
                 Class[] types = new Class [] {
                     java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class
                 };
+                //Para que no permita editar columna uno y dos, la columna 0 se puede editar
+                //para los checkbox
                 public boolean isCellEditable(int rowIndex, int colIndex) {
                 return colIndex != 1 && colIndex != 2;
                 }
