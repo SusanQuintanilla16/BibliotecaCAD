@@ -108,6 +108,10 @@ public class Catalogo {
                     java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class ,java.lang.Object.class
                 };
                 
+                public boolean isCellEditable(int rowIndex, int colIndex) {
+                return colIndex != 1 && colIndex != 2 && colIndex != 3;
+                }
+                
                 public Class getColumnClass(int columnIndex) {
                     return types [columnIndex];
                 }
@@ -146,7 +150,9 @@ public class Catalogo {
                 Class[] types = new Class [] {
                     java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class
                 };
-                
+                public boolean isCellEditable(int rowIndex, int colIndex) {
+                return colIndex != 1 && colIndex != 2;
+                }
                 public Class getColumnClass(int columnIndex) {
                     return types [columnIndex];
                 }
