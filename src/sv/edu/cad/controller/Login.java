@@ -27,7 +27,6 @@ public class Login
             {
                 //abrir el MDI de administrador
                 new PrincipalAdmin().setVisible(true);
-
             }
             else if(idcategoria.equals("2"))
             {
