@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 30-03-2018 a las 01:07:42
+-- Tiempo de generación: 30-03-2018 a las 19:38:15
 -- Versión del servidor: 5.7.14
 -- Versión de PHP: 5.6.25
 
@@ -124,6 +124,15 @@ CREATE TABLE `categoriausuario` (
   `NombreCategoria` varchar(25) NOT NULL,
   `MaxPrestamos` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `categoriausuario`
+--
+
+INSERT INTO `categoriausuario` (`idCategoria`, `NombreCategoria`, `MaxPrestamos`) VALUES
+(1, 'administrador', 3),
+(2, 'docente', 6),
+(3, 'estudiante', 3);
 
 -- --------------------------------------------------------
 
@@ -484,6 +493,16 @@ CREATE TABLE `usuario` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
+-- Volcado de datos para la tabla `usuario`
+--
+
+INSERT INTO `usuario` (`idUsuario`, `idCategoria`, `Nombre`, `Apellido`, `Carnet`, `Password`) VALUES
+(1, 1, 'Juan', 'Perez', 'JP000001', 'admin'),
+(2, 2, 'Milton', 'Narvaez', 'MN000002', 'udb'),
+(3, 3, 'Marcela Maria', 'Lopez', 'LV140071', '123'),
+(4, 3, 'Alejandra', 'Martinez', 'MC140070', '2018');
+
+--
 -- Índices para tablas volcadas
 --
 
@@ -661,7 +680,7 @@ ALTER TABLE `catalogo`
 -- AUTO_INCREMENT de la tabla `categoriausuario`
 --
 ALTER TABLE `categoriausuario`
-  MODIFY `idCategoria` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idCategoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT de la tabla `clasificacion`
 --
@@ -741,7 +760,7 @@ ALTER TABLE `tesis`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `idUsuario` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idUsuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- Restricciones para tablas volcadas
 --
@@ -761,25 +780,6 @@ ALTER TABLE `catalogo`
   ADD CONSTRAINT `catalogo_ibfk_4` FOREIGN KEY (`idMaterial`) REFERENCES `material` (`idMaterial`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `catalogoautor`
---
-ALTER TABLE `catalogoautor`
-  ADD CONSTRAINT `catalogoautor_ibfk_1` FOREIGN KEY (`idAutor`) REFERENCES `autor` (`idAutor`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `catalogoautor_ibfk_2` FOREIGN KEY (`idCatalogo`) REFERENCES `catalogo` (`idCatalogo`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `devolucion`
---
-ALTER TABLE `devolucion`
-  ADD CONSTRAINT `devolucion_ibfk_1` FOREIGN KEY (`idPrestamo`) REFERENCES `prestamo` (`idPrestamo`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `dvdcd`
---
-ALTER TABLE `dvdcd`
-  ADD CONSTRAINT `dvdcd_ibfk_1` FOREIGN KEY (`idCatalogo`) REFERENCES `catalogo` (`idCatalogo`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
 -- Filtros para la tabla `ejemplar`
 --
 ALTER TABLE `ejemplar`
@@ -787,35 +787,11 @@ ALTER TABLE `ejemplar`
   ADD CONSTRAINT `ejemplar_ibfk_2` FOREIGN KEY (`idBiblioteca`) REFERENCES `biblioteca` (`idBiblioteca`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `historiallibro`
---
-ALTER TABLE `historiallibro`
-  ADD CONSTRAINT `historiallibro_ibfk_1` FOREIGN KEY (`idCatalogo`) REFERENCES `catalogo` (`idCatalogo`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `libro`
---
-ALTER TABLE `libro`
-  ADD CONSTRAINT `libro_ibfk_1` FOREIGN KEY (`idCatalogo`) REFERENCES `catalogo` (`idCatalogo`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `mora`
---
-ALTER TABLE `mora`
-  ADD CONSTRAINT `mora_ibfk_1` FOREIGN KEY (`idPrestamo`) REFERENCES `prestamo` (`idPrestamo`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
 -- Filtros para la tabla `prestamo`
 --
 ALTER TABLE `prestamo`
   ADD CONSTRAINT `prestamo_ibfk_1` FOREIGN KEY (`idUsuario`) REFERENCES `usuario` (`idUsuario`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `prestamo_ibfk_2` FOREIGN KEY (`idEjemplar`) REFERENCES `ejemplar` (`idEjemplar`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `renovacion`
---
-ALTER TABLE `renovacion`
-  ADD CONSTRAINT `renovacion_ibfk_1` FOREIGN KEY (`idPrestamo`) REFERENCES `prestamo` (`idPrestamo`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `revista`
