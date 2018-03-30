@@ -20,14 +20,14 @@ public class Login
             ResultSet resultado = (ResultSet) con1.getRs(); //obtenemos los valores devueltos
             resultado.next(); 
             idcategoria = resultado.getString(1); 
-            con1.cerrarConexion();
-            
+            con1.cerrarConexion();            
             
             System.out.println(idcategoria);
             if(idcategoria.equals("1"))
             {
                 //abrir el MDI de administrador
                 new PrincipalAdmin().setVisible(true);
+
             }
             else if(idcategoria.equals("2"))
             {
