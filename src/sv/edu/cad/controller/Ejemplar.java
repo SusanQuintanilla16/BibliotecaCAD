@@ -107,6 +107,7 @@ public class Ejemplar {
     }
     
     //Metodo para el ingreso de ejemplares
+    //Depende de la cantidad ingresadaa, ejecutará n veces la consulta
     public void ingresoEjemplares(int idCatalogo,int idTiempo,int Cantidad){
         try {
             String query = "INSERT INTO `ejemplar`(`idCatalogo`, "
