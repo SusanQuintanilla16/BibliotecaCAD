@@ -27,6 +27,7 @@ public class PrincipalAdmin extends javax.swing.JFrame
         jMenuAutor = new javax.swing.JMenuItem();
         jMenuClas = new javax.swing.JMenuItem();
         jMenuLibro = new javax.swing.JMenuItem();
+        jMenuEjemplar = new javax.swing.JMenuItem();
         saveMenuItem = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
         editMenu = new javax.swing.JMenu();
@@ -94,6 +95,14 @@ public class PrincipalAdmin extends javax.swing.JFrame
             }
         });
         fileMenu1.add(jMenuLibro);
+
+        jMenuEjemplar.setText("Ejemplares");
+        jMenuEjemplar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuEjemplarActionPerformed(evt);
+            }
+        });
+        fileMenu1.add(jMenuEjemplar);
 
         fileMenu.add(fileMenu1);
 
@@ -248,6 +257,21 @@ public class PrincipalAdmin extends javax.swing.JFrame
         }
     }//GEN-LAST:event_copyMenuItemActionPerformed
 
+    private void jMenuEjemplarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuEjemplarActionPerformed
+        try{
+            if(ingresoEjemplar.bandera==0)
+            {
+                ingresoEjemplar ejemplar = new ingresoEjemplar();
+                desktopPane.add(ejemplar);
+                ejemplar.show();
+                ingresoEjemplar.bandera=1;
+            }
+        }catch(Exception ex)
+        {
+            Logger.getLogger(PrincipalAdmin.class.getName()).log(Level.SEVERE,null,ex);
+        }
+    }//GEN-LAST:event_jMenuEjemplarActionPerformed
+
 
     public static void main(String args[]) 
     {
@@ -273,6 +297,7 @@ public class PrincipalAdmin extends javax.swing.JFrame
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuItem jMenuAutor;
     private javax.swing.JMenuItem jMenuClas;
+    private javax.swing.JMenuItem jMenuEjemplar;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuLibro;
