@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 30-03-2018 a las 19:38:15
+-- Tiempo de generación: 31-03-2018 a las 01:11:27
 -- Versión del servidor: 5.7.14
 -- Versión de PHP: 5.6.25
 
@@ -55,6 +55,13 @@ CREATE TABLE `biblioteca` (
   `Ubicacion` varchar(25) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Volcado de datos para la tabla `biblioteca`
+--
+
+INSERT INTO `biblioteca` (`idBiblioteca`, `Nombre`, `Ubicacion`) VALUES
+(1, 'BCA. CENTRAL', 'COLEGIO AMIGOS DON BOSCO');
+
 -- --------------------------------------------------------
 
 --
@@ -81,7 +88,7 @@ CREATE TABLE `catalogo` (
 
 INSERT INTO `catalogo` (`idCatalogo`, `idClasificacion`, `idIdioma`, `idMaterial`, `Titulo`, `Edicion`, `Descripcion`, `Notas`, `FechaAdquirido`, `Resumen`, `FechaPublicacion`) VALUES
 (1, 1, 1, 1, 'Programando con Java', 'Primera', '525 páginas', 'Falta CD del libro', '2016-06-25', 'Se abordan temas esenciales de la programacion', '2012-06-27'),
-(2, 2, 2, 1, 'El Salvador: Un pais Impresionante', 'Tercera Edición', 'Libro nacional', 'Primera página rasgada', '2014-06-25', 'Una vista hacia nuestro bello país', '2012-06-15'),
+(2, 2, 2, 3, 'El Salvador: Un pais Impresionante', 'Tercera Edición', 'Libro nacional', 'Primera página rasgada', '2014-06-25', 'Una vista hacia nuestro bello país', '2012-06-15'),
 (3, 3, 2, 1, 'Industria de El Salvador', 'Quinta', '255 pags', 'Posee 5 copias', '2018-03-29', 'Libro con el top 5 de las industrias en ES', '2015-03-25'),
 (4, 1, 1, 1, '123 Learning English', 'First Edition', '255 pags', 'Without CD', '2018-01-25', 'Book for english students', '2015-06-15'),
 (5, 1, 3, 1, 'Societie de France', 'Primera', '144 pags', 'Se extravio una copia en 2017', '2016-02-15', 'Libro acerca de la sociedad en francia', '1999-06-23'),
@@ -192,8 +199,44 @@ CREATE TABLE `ejemplar` (
   `idEjemplar` int(11) NOT NULL,
   `idCatalogo` int(11) NOT NULL,
   `idBiblioteca` int(11) NOT NULL,
-  `EstadoEjemplar` varchar(15) NOT NULL
+  `idTiempo` int(11) NOT NULL,
+  `idEstado` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `ejemplar`
+--
+
+INSERT INTO `ejemplar` (`idEjemplar`, `idCatalogo`, `idBiblioteca`, `idTiempo`, `idEstado`) VALUES
+(1, 7, 1, 2, 1),
+(2, 7, 1, 2, 1),
+(3, 7, 1, 1, 1),
+(4, 7, 1, 2, 1),
+(5, 7, 1, 2, 1),
+(6, 7, 1, 2, 1),
+(7, 5, 1, 3, 1),
+(8, 5, 1, 3, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `estado`
+--
+
+CREATE TABLE `estado` (
+  `idEstado` int(11) NOT NULL,
+  `Estado` varchar(15) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `estado`
+--
+
+INSERT INTO `estado` (`idEstado`, `Estado`) VALUES
+(1, 'DISPONIBLE'),
+(2, 'PRESTADO'),
+(3, 'RESERVADO'),
+(4, 'EXTRAVIADO');
 
 -- --------------------------------------------------------
 
@@ -245,12 +288,13 @@ CREATE TABLE `libro` (
 --
 
 INSERT INTO `libro` (`idLibro`, `idCatalogo`, `ISBN`, `Publisher`) VALUES
-(8, 3, '125-68-54-0', 'Ministerio de Economía'),
-(9, 4, '125-68-54-0', 'English Studies'),
-(10, 5, '125-63-87-51', 'Francia, Le Vroue'),
-(11, 6, '125-96-36-87', 'España, Pearsons Editorial'),
-(12, 7, '185-96-35-87', 'España, Pearsons Editorial 2015'),
-(13, 8, '125-63-75-84', 'Peru; Blasters Editions');
+(1, 3, '125-68-54-0', 'Ministerio de Economía'),
+(2, 4, '125-68-54-0', 'English Studies'),
+(3, 5, '125-63-87-51', 'Francia, Le Vroue'),
+(4, 6, '125-96-36-87', 'España, Pearsons Editorial'),
+(5, 7, '185-96-35-87', 'España, Pearsons Editorial 2015'),
+(6, 8, '125-63-75-84', 'Peru; Blasters Editions'),
+(7, 1, '1485-6789', 'Madrid, España. Chicago Publications');
 
 -- --------------------------------------------------------
 
@@ -268,7 +312,11 @@ CREATE TABLE `material` (
 --
 
 INSERT INTO `material` (`idMaterial`, `NombreMaterial`) VALUES
-(1, 'Libro');
+(1, 'Libro'),
+(2, 'Tesis'),
+(3, 'Revista'),
+(4, 'CD'),
+(5, 'DVD');
 
 -- --------------------------------------------------------
 
@@ -412,11 +460,18 @@ CREATE TABLE `revista` (
   `idRevista` int(11) NOT NULL,
   `idCatalogo` int(11) NOT NULL,
   `VarianteTitulo` varchar(30) DEFAULT NULL,
-  `Ejemplar` int(30) DEFAULT NULL,
-  `Contenido` int(100) DEFAULT NULL,
-  `Frecuencia` int(30) DEFAULT NULL,
-  `ISSN` int(9) NOT NULL
+  `Ejemplar` varchar(30) DEFAULT NULL,
+  `Contenido` varchar(100) DEFAULT NULL,
+  `Frecuencia` varchar(30) DEFAULT NULL,
+  `ISSN` varchar(9) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `revista`
+--
+
+INSERT INTO `revista` (`idRevista`, `idCatalogo`, `VarianteTitulo`, `Ejemplar`, `Contenido`, `Frecuencia`, `ISSN`) VALUES
+(1, 2, 'MiTurismo', 'Ejemplar Semana Santa', 'COntiene diversas fotografías de ES', 'Anual', '1478-5896');
 
 -- --------------------------------------------------------
 
@@ -476,6 +531,27 @@ CREATE TABLE `tesis` (
   `RecursoDigital` varchar(50) NOT NULL,
   `VarianteTitulo` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tiempoprestamo`
+--
+
+CREATE TABLE `tiempoprestamo` (
+  `idTiempo` int(11) NOT NULL,
+  `Tiempo` varchar(15) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `tiempoprestamo`
+--
+
+INSERT INTO `tiempoprestamo` (`idTiempo`, `Tiempo`) VALUES
+(1, 'Uso Interno'),
+(2, '24 horas'),
+(3, '3 días'),
+(4, '15 días');
 
 -- --------------------------------------------------------
 
@@ -567,7 +643,15 @@ ALTER TABLE `dvdcd`
 ALTER TABLE `ejemplar`
   ADD PRIMARY KEY (`idEjemplar`),
   ADD KEY `idCatalogo` (`idCatalogo`),
-  ADD KEY `idBiblioteca` (`idBiblioteca`);
+  ADD KEY `idBiblioteca` (`idBiblioteca`),
+  ADD KEY `idTiempo` (`idTiempo`),
+  ADD KEY `idEstado` (`idEstado`);
+
+--
+-- Indices de la tabla `estado`
+--
+ALTER TABLE `estado`
+  ADD PRIMARY KEY (`idEstado`);
 
 --
 -- Indices de la tabla `historiallibro`
@@ -651,6 +735,12 @@ ALTER TABLE `tesis`
   ADD KEY `idCatalogo` (`idCatalogo`);
 
 --
+-- Indices de la tabla `tiempoprestamo`
+--
+ALTER TABLE `tiempoprestamo`
+  ADD PRIMARY KEY (`idTiempo`);
+
+--
 -- Indices de la tabla `usuario`
 --
 ALTER TABLE `usuario`
@@ -670,7 +760,7 @@ ALTER TABLE `autor`
 -- AUTO_INCREMENT de la tabla `biblioteca`
 --
 ALTER TABLE `biblioteca`
-  MODIFY `idBiblioteca` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idBiblioteca` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT de la tabla `catalogo`
 --
@@ -700,7 +790,12 @@ ALTER TABLE `dvdcd`
 -- AUTO_INCREMENT de la tabla `ejemplar`
 --
 ALTER TABLE `ejemplar`
-  MODIFY `idEjemplar` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idEjemplar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+--
+-- AUTO_INCREMENT de la tabla `estado`
+--
+ALTER TABLE `estado`
+  MODIFY `idEstado` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT de la tabla `historiallibro`
 --
@@ -715,12 +810,12 @@ ALTER TABLE `idioma`
 -- AUTO_INCREMENT de la tabla `libro`
 --
 ALTER TABLE `libro`
-  MODIFY `idLibro` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `idLibro` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT de la tabla `material`
 --
 ALTER TABLE `material`
-  MODIFY `idMaterial` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `idMaterial` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT de la tabla `mora`
 --
@@ -745,7 +840,7 @@ ALTER TABLE `renovacion`
 -- AUTO_INCREMENT de la tabla `revista`
 --
 ALTER TABLE `revista`
-  MODIFY `idRevista` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idRevista` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT de la tabla `tema`
 --
@@ -756,6 +851,11 @@ ALTER TABLE `tema`
 --
 ALTER TABLE `tesis`
   MODIFY `idTesis` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `tiempoprestamo`
+--
+ALTER TABLE `tiempoprestamo`
+  MODIFY `idTiempo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT de la tabla `usuario`
 --
@@ -784,7 +884,15 @@ ALTER TABLE `catalogo`
 --
 ALTER TABLE `ejemplar`
   ADD CONSTRAINT `ejemplar_ibfk_1` FOREIGN KEY (`idCatalogo`) REFERENCES `catalogo` (`idCatalogo`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `ejemplar_ibfk_2` FOREIGN KEY (`idBiblioteca`) REFERENCES `biblioteca` (`idBiblioteca`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `ejemplar_ibfk_2` FOREIGN KEY (`idBiblioteca`) REFERENCES `biblioteca` (`idBiblioteca`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `ejemplar_ibfk_3` FOREIGN KEY (`idTiempo`) REFERENCES `tiempoprestamo` (`idTiempo`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `ejemplar_ibfk_4` FOREIGN KEY (`idEstado`) REFERENCES `estado` (`idEstado`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `libro`
+--
+ALTER TABLE `libro`
+  ADD CONSTRAINT `libro_ibfk_1` FOREIGN KEY (`idCatalogo`) REFERENCES `catalogo` (`idCatalogo`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `prestamo`
