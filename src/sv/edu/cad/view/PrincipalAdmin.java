@@ -34,6 +34,7 @@ public class PrincipalAdmin extends javax.swing.JFrame
         cutMenuItem = new javax.swing.JMenuItem();
         copyMenuItem = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
+        jingresarP = new javax.swing.JMenuItem();
         contentMenuItem = new javax.swing.JMenuItem();
         aboutMenuItem = new javax.swing.JMenuItem();
 
@@ -108,6 +109,11 @@ public class PrincipalAdmin extends javax.swing.JFrame
 
         saveMenuItem.setMnemonic('s');
         saveMenuItem.setText("Consulta");
+        saveMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveMenuItemActionPerformed(evt);
+            }
+        });
         fileMenu.add(saveMenuItem);
 
         jMenuItem4.setText("Listado");
@@ -140,6 +146,15 @@ public class PrincipalAdmin extends javax.swing.JFrame
 
         helpMenu.setMnemonic('h');
         helpMenu.setText("Prestamos");
+
+        jingresarP.setMnemonic('c');
+        jingresarP.setText("Ingresar");
+        jingresarP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jingresarPActionPerformed(evt);
+            }
+        });
+        helpMenu.add(jingresarP);
 
         contentMenuItem.setMnemonic('c');
         contentMenuItem.setText("Consulta");
@@ -272,6 +287,26 @@ public class PrincipalAdmin extends javax.swing.JFrame
         }
     }//GEN-LAST:event_jMenuEjemplarActionPerformed
 
+    private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_saveMenuItemActionPerformed
+
+    private void jingresarPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jingresarPActionPerformed
+        // TODO add your handling code here:
+        try{
+            if(ingresoPrestamo.bandera==0)
+            {
+                ingresoPrestamo prestamo = new ingresoPrestamo();
+                desktopPane.add(prestamo);
+                prestamo.show();
+                ingresoPrestamo.bandera=1;
+            }
+        }catch(Exception ex)
+        {
+            Logger.getLogger(PrincipalAdmin.class.getName()).log(Level.SEVERE,null,ex);
+        }
+    }//GEN-LAST:event_jingresarPActionPerformed
+
 
     public static void main(String args[]) 
     {
@@ -302,6 +337,7 @@ public class PrincipalAdmin extends javax.swing.JFrame
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuLibro;
     private javax.swing.JMenuItem jMenuTema;
+    private javax.swing.JMenuItem jingresarP;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem saveMenuItem;
     // End of variables declaration//GEN-END:variables
