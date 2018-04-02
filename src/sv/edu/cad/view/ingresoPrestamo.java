@@ -18,6 +18,8 @@ public class ingresoPrestamo extends javax.swing.JInternalFrame {
     static int bandera = 0;
     Prestamos prestamos = new Prestamos();
     DecimalFormat df = new DecimalFormat("0.00");
+    String carnet;
+    int idEjemplar;
     
     public ingresoPrestamo() {
         initComponents();
@@ -72,7 +74,7 @@ public class ingresoPrestamo extends javax.swing.JInternalFrame {
         lblTitulo = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
         lblMaterial = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
+        btnIngreso = new javax.swing.JButton();
         jLabel21 = new javax.swing.JLabel();
         lblTiempo = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -171,7 +173,7 @@ public class ingresoPrestamo extends javax.swing.JInternalFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "id", "Título", "Fecha Prestamo", "Fecha Devolucion"
             }
         ));
         jScrollPane1.setViewportView(tblPrestamos);
@@ -215,12 +217,12 @@ public class ingresoPrestamo extends javax.swing.JInternalFrame {
         lblMaterial.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         lblMaterial.setText("[Ingrese Ejemplar]");
 
-        jButton3.setBackground(new java.awt.Color(51, 255, 204));
-        jButton3.setFont(new java.awt.Font("Arial Black", 0, 12)); // NOI18N
-        jButton3.setText("Ingresar Préstamo");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnIngreso.setBackground(new java.awt.Color(51, 255, 204));
+        btnIngreso.setFont(new java.awt.Font("Arial Black", 0, 12)); // NOI18N
+        btnIngreso.setText("Ingresar Préstamo");
+        btnIngreso.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btnIngresoActionPerformed(evt);
             }
         });
 
@@ -264,11 +266,6 @@ public class ingresoPrestamo extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(lblTiempo)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(lblBiblioteca)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -309,12 +306,19 @@ public class ingresoPrestamo extends javax.swing.JInternalFrame {
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblMora)
-                            .addComponent(lblNombre)
-                            .addComponent(lblApellido))
-                        .addGap(144, 144, 144)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addGap(9, 9, 9))))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(lblTiempo)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnIngreso, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblMora)
+                                    .addComponent(lblNombre)
+                                    .addComponent(lblApellido))
+                                .addGap(115, 115, 115)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap())))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -378,7 +382,7 @@ public class ingresoPrestamo extends javax.swing.JInternalFrame {
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(lblTiempo))
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnIngreso, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(5, 5, 5))
         );
 
@@ -444,9 +448,7 @@ public class ingresoPrestamo extends javax.swing.JInternalFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnCerrar)))))
+                            .addComponent(btnCerrar, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -489,6 +491,47 @@ public class ingresoPrestamo extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //Recargar datos para el form
+    public void Cargar()
+    {
+        tblPrestamos.removeAll();
+        String[] datosUsuario = prestamos.mostrarUsuario(carnet);
+            if(datosUsuario!=null){
+                lblIDUsuario.setText(datosUsuario[0]);
+                lblCarnet.setText(datosUsuario[1]);
+                lblTipo.setText(datosUsuario[2]);
+                lblNombre.setText(datosUsuario[3]);
+                lblApellido.setText(datosUsuario[4]);
+                lblCantidad.setText(datosUsuario[5]);
+                lblMora.setText(df.format(Float.parseFloat(datosUsuario[6])));
+                
+                //Para cargar el total de prestamos
+                int totalPrestamos = prestamos.mostrarTotalPrestamos(Integer.parseInt(datosUsuario[0]));
+                lblTotalP.setText(String.valueOf(totalPrestamos));
+                if(totalPrestamos > 0){
+                    //No tiene prestamos registrados
+                    prestamos.muestraPrestamos(tblPrestamos);
+                }
+                String [] datosEjemplar = prestamos.mostrarEjemplar(idEjemplar);
+                
+                if(datosEjemplar!=null){
+                    lblIDEjemplar.setText(datosEjemplar[0]);
+                    lblBiblioteca.setText(datosEjemplar[1]);
+                    lblEstado.setText(datosEjemplar[2]);
+                    lblIDCatalogo.setText(datosEjemplar[3]);
+                    lblTitulo.setText(datosEjemplar[4]);
+                    lblMaterial.setText(datosEjemplar[5]);
+                    lblTiempo.setText(datosEjemplar[6]);
+                }
+                else{
+                    JOptionPane.showMessageDialog(this, "Ejemplar no registrado");
+                }
+            }
+            else{
+                JOptionPane.showMessageDialog(this, "Usuario no registrado");
+            }
+    }
+    
     private void txtIDEjemplarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIDEjemplarKeyTyped
         //Para solo digitar enteros en cantidad
         if(!Character.isDigit(evt.getKeyChar())){
@@ -529,47 +572,28 @@ public class ingresoPrestamo extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Ingrese el ID del ejemplar");
         }
         else{
-            String[] datosUsuario = prestamos.mostrarUsuario(txtCarnet.getText().toUpperCase());
-            if(datosUsuario!=null){
-                lblIDUsuario.setText(datosUsuario[0]);
-                lblCarnet.setText(datosUsuario[1]);
-                lblTipo.setText(datosUsuario[2]);
-                lblNombre.setText(datosUsuario[3]);
-                lblApellido.setText(datosUsuario[4]);
-                lblCantidad.setText(datosUsuario[5]);
-                lblMora.setText(df.format(Float.parseFloat(datosUsuario[6])));
-                
-                
-                String [] datosEjemplar = prestamos.mostrarEjemplar(Integer.parseInt(txtIDEjemplar.getText()));
-                
-                if(datosEjemplar!=null){
-                    lblIDEjemplar.setText(datosEjemplar[0]);
-                    lblBiblioteca.setText(datosEjemplar[1]);
-                    lblEstado.setText(datosEjemplar[2]);
-                    lblIDCatalogo.setText(datosEjemplar[3]);
-                    lblTitulo.setText(datosEjemplar[4]);
-                    lblMaterial.setText(datosEjemplar[5]);
-                    lblTiempo.setText(datosEjemplar[6]);
-                }
-                else{
-                    JOptionPane.showMessageDialog(this, "Ejemplar no registrado");
-                }
-            }
-            else{
-                JOptionPane.showMessageDialog(this, "Usuario no registrado");
-            }
-        }
+            carnet = txtCarnet.getText().toUpperCase();
+            idEjemplar = Integer.parseInt(txtIDEjemplar.getText());
+            Cargar();
+        }       
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    private void btnIngresoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresoActionPerformed
+        boolean bandera = prestamos.ingresoPrestamoEstudiante();
+        if(bandera){
+            JOptionPane.showMessageDialog(this, "Registro de préstamo exitoso");
+            Cargar();
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "Ocurrió un error");
+        }
+    }//GEN-LAST:event_btnIngresoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCerrar;
+    private javax.swing.JButton btnIngreso;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
