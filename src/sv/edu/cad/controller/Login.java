@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import sv.edu.cad.model.Conexion;
 import sv.edu.cad.view.Logueo;
 import sv.edu.cad.view.PrincipalAdmin;
+import sv.edu.cad.profesor.MenuProfesor;
 
 public class Login 
 {
@@ -30,8 +31,7 @@ public class Login
             }
             else if(idcategoria.equals("2"))
             {
-                //abrir el MDI de docente
-
+                new MenuProfesor(carnet).setVisible(true);
             }
             else if(idcategoria.equals("3"))
             {
