@@ -10,6 +10,7 @@ import java.text.DecimalFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import sv.edu.cad.controller.Prestamos;
 
 public class ingresoPrestamo extends javax.swing.JInternalFrame {
@@ -23,6 +24,7 @@ public class ingresoPrestamo extends javax.swing.JInternalFrame {
     
     public ingresoPrestamo() {
         initComponents();
+        tblPrestamos.setModel(new DefaultTableModel());
     }
 
     /**
@@ -516,15 +518,16 @@ public class ingresoPrestamo extends javax.swing.JInternalFrame {
                 lblNombre.setText(datosUsuario[3]);
                 lblApellido.setText(datosUsuario[4]);
                 lblCantidad.setText(datosUsuario[5]);
-                lblMora.setText(df.format(Float.parseFloat(datosUsuario[6])));
+                
                 
                 //Para cargar el total de prestamos
                 int totalPrestamos = prestamos.mostrarTotalPrestamos();
                 lblTotalP.setText(String.valueOf(totalPrestamos));
                 if(totalPrestamos > 0){
-                    //No tiene prestamos registrados
                     prestamos.muestraPrestamos(tblPrestamos);
+                    prestamos.calcularMora();
                 }
+                lblMora.setText(df.format(prestamos.getMora()));
                 String [] datosEjemplar = prestamos.mostrarEjemplar(idEjemplar);
                 
                 if(datosEjemplar!=null){
@@ -579,7 +582,9 @@ public class ingresoPrestamo extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtCarnetKeyTyped
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        if(txtCarnet.getText().equals(""))        {
+        tblPrestamos.setModel(new DefaultTableModel());
+        lblMora.setText("0,00");        
+        if(txtCarnet.getText().equals("")){
             JOptionPane.showMessageDialog(this, "Ingrese el carnet del usuario");
         }
         else if(txtIDEjemplar.getText().equals("")){

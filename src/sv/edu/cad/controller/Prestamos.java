@@ -10,6 +10,8 @@ package sv.edu.cad.controller;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -29,6 +31,8 @@ public class Prestamos {
     int idTiempo;
     float cuota;
     int idPrestamo;
+    ArrayList <String> fechaPrestamos;
+    ArrayList <Float> montoPrestamos;
     
     public Prestamos() {
         this.Mora = (float) 0.0;
@@ -47,7 +51,7 @@ public class Prestamos {
         try {
             String Datos[]= new String[7];
             String query ="SELECT usuario.idUsuario,usuario.Carnet,categoriausuario.NombreCategoria"
-                    + ",usuario.Nombre,usuario.Apellido,categoriausuario.MaxPrestamos,usuario.Mora from usuario "
+                    + ",usuario.Nombre,usuario.Apellido,categoriausuario.MaxPrestamos from usuario "
                     + "inner join categoriausuario on categoriausuario.idCategoria=usuario.idCategoria "
                     + "where usuario.Carnet='"+Carnet+"'";
             Conexion conexion = new Conexion();
@@ -56,7 +60,7 @@ public class Prestamos {
             if(Contenido.next()){
                 //Reasignación de valores
                 this.idUsuario=Contenido.getInt(1);
-                this.Mora=Contenido.getFloat(7);
+                //this.Mora=Contenido.getFloat(7);
                 this.maxPrestamos=Contenido.getInt(6);
                 
                 //Para los labels
@@ -66,7 +70,7 @@ public class Prestamos {
                 Datos[3] = Contenido.getString(4);
                 Datos[4] = Contenido.getString(5);
                 Datos[5] = Contenido.getString(6);
-                Datos[6] = Contenido.getString(7);
+                //Datos[6] = Contenido.getString(7);
                 Contenido.close();
                 conexion.cerrarConexion();
                 return Datos;
@@ -189,12 +193,14 @@ public class Prestamos {
     public void muestraPrestamos(JTable tabla){
         try
         {
+            fechaPrestamos = new ArrayList<String>();
+            montoPrestamos = new ArrayList<Float>();
             String[] columnas = {"ID","Título","Fecha Préstamo","Fecha Devolución"};
             Object [][] data = null;
             DefaultTableModel modelo = new DefaultTableModel(data, columnas);
             Conexion conexion = new Conexion();
             conexion.setRs("select prestamo.idEjemplar,catalogo.Titulo,"
-                    + "prestamo.FechaPrestamo,prestamo.FechaDevolucion from "
+                    + "prestamo.FechaPrestamo,prestamo.FechaDevolucion,prestamo.montodia from "
                     + "prestamo inner join ejemplar on ejemplar.idEjemplar="
                     + "prestamo.idEjemplar inner join catalogo on "
                     + "catalogo.idCatalogo=ejemplar.idCatalogo where prestamo.idUsuario "
@@ -205,6 +211,8 @@ public class Prestamos {
                 Object[] row={catalogo.getInt(1),catalogo.getString(2),
                 catalogo.getString(3),catalogo.getString(4)};
                 modelo.addRow(row);
+                fechaPrestamos.add(catalogo.getString(4));
+                montoPrestamos.add(catalogo.getFloat(5));
             }
             catalogo.close();
             conexion.cerrarConexion();
@@ -215,6 +223,63 @@ public class Prestamos {
         }
     }
     
+    //Método para calcular las moras 
+    // Como el arraylist anterior solo toma los prestamos que aun no han sido regresados
+    // comparará la fecha de devolución con la actual y si ya paso la fecha lo tomará como 
+    // prestamo vencido y actualizará la mora
+    public void calcularMora(){
+        //ArrayList<Float> PrestamosVencidos = new ArrayList<Float>();
+        LocalDate fechaActual = LocalDate.now();
+        float mora = 0;
+        for (int i = 0; i < fechaPrestamos.size(); i++) {
+            String [] arregloFecha = fechaPrestamos.get(i).split("-");
+            LocalDate fechaDevolucion = LocalDate.of(Integer.parseInt(arregloFecha[0]),
+                    Integer.parseInt(arregloFecha[1]),
+                    Integer.parseInt(arregloFecha[2]));
+            int dias = (int) ChronoUnit.DAYS.between(fechaDevolucion, fechaActual);
+            if(dias>0){
+                mora += dias*montoPrestamos.get(i);   
+            }
+        }
+        
+        if(mora > 0)
+        {
+            try {
+                String query = "update usuario set usuario.mora = "+mora+" where "
+                        + "usuario.idUsuario = "+this.idUsuario;
+                Conexion conexion = new Conexion();
+                conexion.setQuery(query);
+                conexion.cerrarConexion();
+            } catch (SQLException ex) {
+                Logger.getLogger(Prestamos.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
+    //Método para obtener la mora
+    public float getMora ()
+    {
+        try {
+            String query = "select usuario.mora from usuario where usuario.idUsuario = "+this.idUsuario;
+            Conexion conexion = new Conexion();
+            conexion.setRs(query);
+            ResultSet mora = conexion.getRs();
+            if(mora.next()){
+                this.Mora= mora.getFloat(1);
+                mora.close();
+                conexion.cerrarConexion();
+                return this.Mora;
+            }else{
+                mora.close();
+                conexion.cerrarConexion();
+                return 0;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Prestamos.class.getName()).log(Level.SEVERE, null, ex);
+            return 0;
+        }
+    }
+       
     //Método para realizar las verificaciones
     private boolean verificaEstado()
     {

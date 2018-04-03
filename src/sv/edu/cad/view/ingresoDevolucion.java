@@ -5,6 +5,7 @@ import java.text.DecimalFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import sv.edu.cad.controller.Prestamos;
 
 /**
@@ -22,6 +23,7 @@ public class ingresoDevolucion extends javax.swing.JInternalFrame {
     
     public ingresoDevolucion() {
         initComponents();
+        tblPrestamos.setModel(new DefaultTableModel());
     }
 
     //Recargar datos para el form
@@ -36,22 +38,21 @@ public class ingresoDevolucion extends javax.swing.JInternalFrame {
                 lblNombre.setText(datosUsuario[3]);
                 lblApellido.setText(datosUsuario[4]);
                 //lblCantidad.setText(datosUsuario[5]);
-                //lblMora.setText(df.format(Float.parseFloat(datosUsuario[6])));
                 
                 //Para cargar el total de prestamos
                 int totalPrestamos = prestamos.mostrarTotalPrestamos();
                 lblTotalP.setText(String.valueOf(totalPrestamos));
                 if(totalPrestamos > 0){
-                    //No tiene prestamos registrados
                     prestamos.muestraPrestamos(tblPrestamos);
+                    prestamos.calcularMora();
                 }
+                lblMora.setText(df.format(prestamos.getMora()));
+                
                 String [] datosEjemplar = prestamos.mostrarEjemplar(idEjemplar);
                 
                 if(datosEjemplar!=null){
                     lblIDEjemplar.setText(datosEjemplar[0]);
-                    //lblBiblioteca.setText(datosEjemplar[1]);
                     lblEstado.setText(datosEjemplar[2]);
-                    //lblIDCatalogo.setText(datosEjemplar[3]);
                     lblTitulo.setText(datosEjemplar[4]);
                     lblMaterial.setText(datosEjemplar[5]);
                     lblTiempo.setText(datosEjemplar[6]);
@@ -605,6 +606,7 @@ public class ingresoDevolucion extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtCarnetKeyTyped
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        tblPrestamos.setModel(new DefaultTableModel());
         if(txtCarnet.getText().equals(""))        {
             JOptionPane.showMessageDialog(this, "Ingrese el carnet del usuario");
         }
