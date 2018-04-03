@@ -11,8 +11,7 @@ public class PrincipalAdmin extends javax.swing.JFrame
         initComponents();
         setExtendedState(PrincipalAdmin.MAXIMIZED_BOTH);
     }
-
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -35,8 +34,10 @@ public class PrincipalAdmin extends javax.swing.JFrame
         copyMenuItem = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
         jingresarP = new javax.swing.JMenuItem();
-        contentMenuItem = new javax.swing.JMenuItem();
-        aboutMenuItem = new javax.swing.JMenuItem();
+        jlistarP = new javax.swing.JMenuItem();
+        helpMenu1 = new javax.swing.JMenu();
+        jdevolver = new javax.swing.JMenuItem();
+        jlistarP1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -156,15 +157,39 @@ public class PrincipalAdmin extends javax.swing.JFrame
         });
         helpMenu.add(jingresarP);
 
-        contentMenuItem.setMnemonic('c');
-        contentMenuItem.setText("Consulta");
-        helpMenu.add(contentMenuItem);
-
-        aboutMenuItem.setMnemonic('a');
-        aboutMenuItem.setText("Listado");
-        helpMenu.add(aboutMenuItem);
+        jlistarP.setMnemonic('a');
+        jlistarP.setText("Listado");
+        jlistarP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jlistarPActionPerformed(evt);
+            }
+        });
+        helpMenu.add(jlistarP);
 
         menuBar.add(helpMenu);
+
+        helpMenu1.setMnemonic('h');
+        helpMenu1.setText("Devolución");
+
+        jdevolver.setMnemonic('c');
+        jdevolver.setText("Devolver");
+        jdevolver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jdevolverActionPerformed(evt);
+            }
+        });
+        helpMenu1.add(jdevolver);
+
+        jlistarP1.setMnemonic('a');
+        jlistarP1.setText("Listado");
+        jlistarP1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jlistarP1ActionPerformed(evt);
+            }
+        });
+        helpMenu1.add(jlistarP1);
+
+        menuBar.add(helpMenu1);
 
         setJMenuBar(menuBar);
 
@@ -307,6 +332,41 @@ public class PrincipalAdmin extends javax.swing.JFrame
         }
     }//GEN-LAST:event_jingresarPActionPerformed
 
+    private void jlistarPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jlistarPActionPerformed
+        try{
+            if(listadoPrestamo.bandera==0)
+            {
+                listadoPrestamo listado = new listadoPrestamo();
+                desktopPane.add(listado);
+                listado.show();
+                listadoPrestamo.bandera=1;
+            }
+        }catch(Exception ex)
+        {
+            Logger.getLogger(PrincipalAdmin.class.getName()).log(Level.SEVERE,null,ex);
+        }
+    }//GEN-LAST:event_jlistarPActionPerformed
+
+    private void jdevolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jdevolverActionPerformed
+        // TODO add your handling code here:
+        try{
+            if(ingresoDevolucion.bandera==0)
+            {
+                ingresoDevolucion devolucion = new ingresoDevolucion();
+                desktopPane.add(devolucion);
+                devolucion.show();
+                ingresoDevolucion.bandera=1;
+            }
+        }catch(Exception ex)
+        {
+            Logger.getLogger(PrincipalAdmin.class.getName()).log(Level.SEVERE,null,ex);
+        }
+    }//GEN-LAST:event_jdevolverActionPerformed
+
+    private void jlistarP1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jlistarP1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jlistarP1ActionPerformed
+
 
     public static void main(String args[]) 
     {
@@ -320,8 +380,6 @@ public class PrincipalAdmin extends javax.swing.JFrame
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem aboutMenuItem;
-    private javax.swing.JMenuItem contentMenuItem;
     private javax.swing.JMenuItem copyMenuItem;
     private javax.swing.JMenuItem cutMenuItem;
     public static javax.swing.JDesktopPane desktopPane;
@@ -329,6 +387,7 @@ public class PrincipalAdmin extends javax.swing.JFrame
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenu fileMenu1;
     private javax.swing.JMenu helpMenu;
+    private javax.swing.JMenu helpMenu1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuItem jMenuAutor;
     private javax.swing.JMenuItem jMenuClas;
@@ -337,7 +396,10 @@ public class PrincipalAdmin extends javax.swing.JFrame
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuLibro;
     private javax.swing.JMenuItem jMenuTema;
+    private javax.swing.JMenuItem jdevolver;
     private javax.swing.JMenuItem jingresarP;
+    private javax.swing.JMenuItem jlistarP;
+    private javax.swing.JMenuItem jlistarP1;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem saveMenuItem;
     // End of variables declaration//GEN-END:variables

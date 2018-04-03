@@ -10,9 +10,6 @@ package sv.edu.cad.controller;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -30,6 +27,8 @@ public class Prestamos {
     int idUsuario;
     int idEjemplar;
     int idTiempo;
+    float cuota;
+    int idPrestamo;
     
     public Prestamos() {
         this.Mora = (float) 0.0;
@@ -39,6 +38,8 @@ public class Prestamos {
         this.idUsuario = 0;
         this.idEjemplar = 0;
         this.idTiempo = 0;
+        this.cuota = (float) 0.0;
+        this.idPrestamo=0;
     }
     
     //Método para mostrar la información del usuario para realizar el ingreso del préstamo
@@ -80,18 +81,19 @@ public class Prestamos {
     //Método para mostrar la informacion del ejemplar seleccionado
     public String[] mostrarEjemplar(int idEjemplar){
         try {
-            String Datos[]= new String[7];
+            String Datos[]= new String[8];
             String query ="select ejemplar.idEjemplar,biblioteca.Nombre,"
                     + "estado.Estado,catalogo.idCatalogo,catalogo.Titulo,"
                     + "material.NombreMaterial,tiempoprestamo.Tiempo,"
-                    + "ejemplar.idTiempo from "
+                    + "ejemplar.idTiempo,cuotamora.cuotamora from "
                     + "ejemplar inner join catalogo on ejemplar.idCatalogo="
                     + "catalogo.idCatalogo inner join biblioteca on biblioteca."
                     + "idBiblioteca=ejemplar.idBiblioteca inner join estado "
                     + "on estado.idEstado=ejemplar.idEstado inner join material"
                     + " on catalogo.idMaterial=material.idMaterial inner join "
                     + "tiempoprestamo on tiempoprestamo.idTiempo=ejemplar."
-                    + "idTiempo where ejemplar.idEjemplar="+idEjemplar+"";
+                    + "idTiempo inner join cuotamora on cuotamora.idcuota= "
+                    + "catalogo.idcuota where ejemplar.idEjemplar="+idEjemplar+"";
             Conexion conexion = new Conexion();
             conexion.setRs(query);
             ResultSet Contenido = conexion.getRs();
@@ -100,6 +102,7 @@ public class Prestamos {
                 this.idEjemplar=Contenido.getInt(1);
                 this.estado=Contenido.getString(3);
                 this.idTiempo=Contenido.getInt(8);
+                this.cuota=Contenido.getFloat(9);
                 
                 //Para los labels
                 Datos[0] = Contenido.getString(1);
@@ -109,6 +112,7 @@ public class Prestamos {
                 Datos[4] = Contenido.getString(5);
                 Datos[5] = Contenido.getString(6);
                 Datos[6] = Contenido.getString(7);
+                Datos[7] = Contenido.getString(9);
                 Contenido.close();
                 conexion.cerrarConexion();
                 return Datos;
@@ -120,11 +124,44 @@ public class Prestamos {
         }
     }
     
+    //Función para mostrar datos del préstamo
+    public String[] mostrarItemPrestamo(){
+        try {
+            String [] resultados = new String[4]; 
+            String query = "SELECT usuario.Carnet,prestamo.FechaPrestamo,"
+                    + "prestamo.FechaDevolucion,prestamo.MontoDia,prestamo.idPrestamo from usuario "
+                    + "inner join prestamo on prestamo.idUsuario=usuario.idUsuario"
+                    + " inner join ejemplar on ejemplar.idEjemplar=prestamo.idEjemplar"
+                    + " WHERE prestamo.idEjemplar="+this.idEjemplar;
+            Conexion conexion = new Conexion();
+            conexion.setRs(query);
+            ResultSet resultado = conexion.getRs();
+            if(resultado.next()){
+                resultados[0]=resultado.getString(1);
+                resultados[1]=resultado.getString(2);
+                resultados[2]=resultado.getString(3);
+                resultados[3]=resultado.getString(4);
+                this.idPrestamo=resultado.getInt(5);
+                resultado.close();
+                conexion.cerrarConexion();
+                return resultados;
+            }
+            else{
+                resultado.close();
+                conexion.cerrarConexion();
+                return null;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Prestamos.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }      
+    }
+    
     //Método para mostrar el total de prestamos por usuario
-    public int mostrarTotalPrestamos(int idUsuario){
+    public int mostrarTotalPrestamos(){
         try {
             String query="select count(prestamo.idUsuario) from prestamo "
-                    + "where prestamo.idUsuario="+ idUsuario+ " and prestamo."
+                    + "where prestamo.idUsuario="+ this.idUsuario+ " and prestamo."
                     + "EstadoPrestamo=\"PRESTADO\"";
             Conexion conexion = new Conexion();
             conexion.setRs(query);
@@ -229,7 +266,7 @@ public class Prestamos {
                         + "`idEjemplar`, `FechaPrestamo`, `EstadoPrestamo`, `DuracionDias`"
                         + ", `MontoDia`, `FechaDevolucion`) VALUES ("
                         + this.idUsuario+","+this.idEjemplar+",'"+fechaPrestamo.toString()
-                        +"','PRESTADO',"+dias+",0.25,'"+fechaDevolucion.toString()+"')";
+                        +"','PRESTADO',"+dias+","+this.cuota+",'"+fechaDevolucion.toString()+"')";
                 Conexion conexion = new Conexion();
                 conexion.setQuery(query);
                 query  = "UPDATE ejemplar set ejemplar.idEstado = 2 where ejemplar.idEjemplar="
@@ -242,6 +279,126 @@ public class Prestamos {
                 Logger.getLogger(Prestamos.class.getName()).log(Level.SEVERE, null, ex);
                 return false;
             }
+        }
+    }
+    
+    //Método de préstamo para docentes y administradores
+    //Al tener mayor rango de privilegios los préstamos duran 15 días
+        public boolean ingresoPrestamoDocenteAdmin(){
+        boolean bandera = verificaEstado();
+        if(!bandera){
+            return bandera;
+        }
+        else{
+            try {
+                int dias = 15;
+                LocalDate fechaPrestamo = LocalDate.now();
+                LocalDate fechaDevolucion = fechaPrestamo.plusDays(dias);//sumo días para la devolución
+                String query = "INSERT INTO `prestamo`(`idUsuario`, "
+                        + "`idEjemplar`, `FechaPrestamo`, `EstadoPrestamo`, `DuracionDias`"
+                        + ", `MontoDia`, `FechaDevolucion`) VALUES ("
+                        + this.idUsuario+","+this.idEjemplar+",'"+fechaPrestamo.toString()
+                        +"','PRESTADO',"+dias+","+this.cuota+",'"+fechaDevolucion.toString()+"')";
+                Conexion conexion = new Conexion();
+                conexion.setQuery(query);
+                query  = "UPDATE ejemplar set ejemplar.idEstado = 2 where ejemplar.idEjemplar="
+                        +this.idEjemplar;
+                conexion.setQuery(query);
+                conexion.cerrarConexion();
+                
+                return bandera;
+            } catch (SQLException ex) {
+                Logger.getLogger(Prestamos.class.getName()).log(Level.SEVERE, null, ex);
+                return false;
+            }
+        }
+    }
+        
+    //Método para cargar los préstamos
+    public void cargarPrestamos(JTable tabla){
+            try
+            {
+                String[] columnas = {"ID","Título","Material","Carnet","Fecha Préstamo",
+                    "Fecha Devolución","Estado"};
+                Object [][] data = null;
+                DefaultTableModel modelo = new DefaultTableModel(data, columnas);
+                Conexion conexion = new Conexion();
+                conexion.setRs("select prestamo.idPrestamo,catalogo.Titulo,"
+                        + "material.NombreMaterial,usuario.Carnet,prestamo.FechaPrestamo"
+                        + ",prestamo.FechaDevolucion,prestamo.EstadoPrestamo from prestamo"
+                        + " inner join ejemplar on ejemplar.idEjemplar=prestamo.idEjemplar "
+                        + "inner join catalogo on ejemplar.idCatalogo=catalogo.idCatalogo "
+                        + "inner join usuario on usuario.idUsuario=prestamo.idUsuario inner "
+                        + "join material on material.idMaterial= catalogo.idMaterial");
+                ResultSet prestamo = conexion.getRs();
+                while(prestamo.next())
+                {
+                    Object[] row={prestamo.getInt(1),prestamo.getString(2),
+                    prestamo.getString(3),prestamo.getString(4),prestamo.getString(5),
+                    prestamo.getString(6),prestamo.getString(7)};
+                    modelo.addRow(row);
+                }
+                prestamo.close();
+                conexion.cerrarConexion();
+                tabla.setModel(modelo);
+                tabla.setEnabled(false);
+            } catch (SQLException ex) {
+            Logger.getLogger(Catalogo.class.getName()).log(Level.SEVERE, null, ex);
+            }
+    }
+    
+    //Método para cargar los préstamos
+    public void cargarPrestamosCarnet(JTable tabla,String carnet){
+        try
+        {
+                String[] columnas = {"ID","Título","Material","Carnet","Fecha Préstamo",
+                    "Fecha Devolución","Estado"};
+                Object [][] data = null;
+                DefaultTableModel modelo = new DefaultTableModel(data, columnas);
+                Conexion conexion = new Conexion();
+                conexion.setRs("select prestamo.idPrestamo,catalogo.Titulo,"
+                        + "material.NombreMaterial,usuario.Carnet,prestamo.FechaPrestamo"
+                        + ",prestamo.FechaDevolucion,prestamo.EstadoPrestamo from prestamo"
+                        + " inner join ejemplar on ejemplar.idEjemplar=prestamo.idEjemplar "
+                        + "inner join catalogo on ejemplar.idCatalogo=catalogo.idCatalogo "
+                        + "inner join usuario on usuario.idUsuario=prestamo.idUsuario inner "
+                        + "join material on material.idMaterial= catalogo.idMaterial where "
+                        + "usuario.Carnet like '"+carnet+"%'");
+                ResultSet prestamo = conexion.getRs();
+                while(prestamo.next())
+                {
+                    Object[] row={prestamo.getInt(1),prestamo.getString(2),
+                    prestamo.getString(3),prestamo.getString(4),prestamo.getString(5),
+                    prestamo.getString(6),prestamo.getString(7)};
+                    modelo.addRow(row);
+                }
+                prestamo.close();
+                conexion.cerrarConexion();
+                tabla.setModel(modelo);
+                tabla.setEnabled(false);
+            } catch (SQLException ex) {
+            Logger.getLogger(Catalogo.class.getName()).log(Level.SEVERE, null, ex);
+            }
+    }
+    
+    //Función para realizar la devolución
+    public boolean ingresoDevolucion(String Descripcion){
+        try {
+            String query = "INSERT INTO `devolucion`(`idPrestamo`, `Observaciones`) VALUES ("
+                    + this.idPrestamo+",'"+Descripcion+"')";
+            Conexion conexion = new Conexion();
+            conexion.setQuery(query);
+            query = "update prestamo set estadoprestamo = 'DEVUELTO' where "
+                    + "prestamo.idPrestamo = "+this.idPrestamo;
+            conexion.setQuery(query);
+            query = "update ejemplar set idEstado = 1 where ejemplar.idEjemplar "
+                    + "= "+this.idEjemplar;
+            conexion.setQuery(query);
+            conexion.cerrarConexion();
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(Prestamos.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
         }
     }
 }

@@ -202,13 +202,32 @@ public class Catalogo {
         }
     }
     
+    //Función mostrar Mora para llenar combobox
+    public void cargarCuota(JComboBox mora){
+        try {
+            Conexion conexion = new Conexion();
+            String sql = "select * from cuotaMora";
+            mora.removeAllItems();
+            conexion.setRs(sql);
+            ResultSet cuotas = conexion.getRs();
+            while(cuotas.next()){
+                mora.addItem(cuotas.getString(2));
+            }
+            cuotas.close();
+            conexion.cerrarConexion();
+        } catch (SQLException ex) {
+            Logger.getLogger(Catalogo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
     /* FUNCION ingresarCatalogo
        Realiza el ingreso al catalogo y devuelve el ultimo id ingresado a la
        base de datos
     */
     public int ingresarCatalogo(int idClasificacion,int idIdioma,int idMaterial,String Titulo,
             String Edicion,String Descripcion, String Notas,String fechaAdq,
-            String Resumen,String fechaPub){
+            String Resumen,String fechaPub,int idCuota){
         try {
             /*SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd");
             Date FechaAdquirido = parser.parse(fechaAdq);
@@ -217,9 +236,9 @@ public class Catalogo {
             System.out.println(parser.parse(fechaAdq));
             Date FechaPublicado = parser.parse(fechaPub);*/
             String query = "INSERT INTO `catalogo`(`idClasificacion`, `idIdioma`, "
-                    + "`idMaterial`, `Titulo`, `Edicion`, `Descripcion`, `Notas`, `FechaAdquirido`,"
+                    + "`idMaterial`,`idCuota` , `Titulo`, `Edicion`, `Descripcion`, `Notas`, `FechaAdquirido`,"
                     + " `Resumen`, `FechaPublicacion`) VALUES (" + idClasificacion + ","
-                    + idIdioma + "," + idMaterial + ",'" + Titulo + "','" + Edicion
+                    + idIdioma + "," + idMaterial + ","+idCuota+",'" + Titulo + "','" + Edicion
                     + "','" + Descripcion + "','" + Notas + "','" + fechaAdq
                     + "','" + Resumen + "','" + fechaPub + "')";
             Conexion conexion = new Conexion();

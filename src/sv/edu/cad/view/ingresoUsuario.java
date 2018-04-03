@@ -247,7 +247,7 @@ public class ingresoUsuario extends javax.swing.JInternalFrame
             {
                 //convertir contraseña a string
                 String pass = new String(password);
-                usuario.IngresarUsuario(nombre, apellido, carnet, pass, indice); 
+                usuario.IngresarUsuario(nombre, apellido, carnet.toUpperCase(), pass, indice); 
                 limpiarValores();
                 
              }      
