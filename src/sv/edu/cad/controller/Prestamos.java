@@ -33,6 +33,7 @@ public class Prestamos {
     int idPrestamo;
     ArrayList <String> fechaPrestamos;
     ArrayList <Float> montoPrestamos;
+    ArrayList <Integer> idPrestamos;
     
     public Prestamos() {
         this.Mora = (float) 0.0;
@@ -195,12 +196,14 @@ public class Prestamos {
         {
             fechaPrestamos = new ArrayList<String>();
             montoPrestamos = new ArrayList<Float>();
+            idPrestamos = new ArrayList <Integer>();
             String[] columnas = {"ID","Título","Fecha Préstamo","Fecha Devolución"};
             Object [][] data = null;
             DefaultTableModel modelo = new DefaultTableModel(data, columnas);
             Conexion conexion = new Conexion();
             conexion.setRs("select prestamo.idEjemplar,catalogo.Titulo,"
-                    + "prestamo.FechaPrestamo,prestamo.FechaDevolucion,prestamo.montodia from "
+                    + "prestamo.FechaPrestamo,prestamo.FechaDevolucion,prestamo.montodia"
+                    + ",prestamo.idPrestamo from "
                     + "prestamo inner join ejemplar on ejemplar.idEjemplar="
                     + "prestamo.idEjemplar inner join catalogo on "
                     + "catalogo.idCatalogo=ejemplar.idCatalogo where prestamo.idUsuario "
@@ -213,6 +216,7 @@ public class Prestamos {
                 modelo.addRow(row);
                 fechaPrestamos.add(catalogo.getString(4));
                 montoPrestamos.add(catalogo.getFloat(5));
+                idPrestamos.add(catalogo.getInt(6));
             }
             catalogo.close();
             conexion.cerrarConexion();
@@ -228,7 +232,7 @@ public class Prestamos {
     // comparará la fecha de devolución con la actual y si ya paso la fecha lo tomará como 
     // prestamo vencido y actualizará la mora
     public void calcularMora(){
-        //ArrayList<Float> PrestamosVencidos = new ArrayList<Float>();
+        ArrayList<Object[]> prestamosVencidos = new ArrayList<Object[]>();
         LocalDate fechaActual = LocalDate.now();
         float mora = 0;
         for (int i = 0; i < fechaPrestamos.size(); i++) {
@@ -238,7 +242,8 @@ public class Prestamos {
                     Integer.parseInt(arregloFecha[2]));
             int dias = (int) ChronoUnit.DAYS.between(fechaDevolucion, fechaActual);
             if(dias>0){
-                mora += dias*montoPrestamos.get(i);   
+                mora += dias*montoPrestamos.get(i);
+                prestamosVencidos.add(new Object[] {idPrestamos.get(i),dias,dias*montoPrestamos.get(i)});
             }
         }
         
@@ -249,6 +254,39 @@ public class Prestamos {
                         + "usuario.idUsuario = "+this.idUsuario;
                 Conexion conexion = new Conexion();
                 conexion.setQuery(query);
+                //Se pasa el arraylist a una matriz multidimensional de tipo objeto
+                Object[][] arrayVencimiento = new Object[prestamosVencidos.size()][3];
+                for (int i = 0; i <prestamosVencidos.size(); i++) {
+                    Object[] row = prestamosVencidos.get(i);
+                    arrayVencimiento[i] = row;
+                }
+                
+                String queryMultiple;
+                for (int i = 0; i < arrayVencimiento.length; i++) {
+                    //for (int j = 0; j < 10; j++) {
+                    Conexion conexion2= new Conexion();
+                    query= "select mora.idprestamo from mora where mora.idprestamo = "
+                            + arrayVencimiento[i][0];
+                    conexion2.setRs(query);
+                    ResultSet resultado = conexion2.getRs();
+                    if(resultado.next()){
+                        queryMultiple="update mora set estadomora='PENDIENTE',"
+                                + "montomora="+arrayVencimiento[i][2]+",diasbajomora="
+                                + arrayVencimiento[i][1] + " where idprestamo = "
+                                + arrayVencimiento[i][0];
+                    }
+                    else{
+                        queryMultiple="insert into mora(idprestamo,estadomora,montomora,"
+                                + "diasbajomora) values("+arrayVencimiento[i][0]
+                                +",'PENDIENTE',"+arrayVencimiento[i][2]+","
+                                +arrayVencimiento[i][1]+")";
+                    }
+                    Conexion conexion3 = new Conexion();
+                    conexion3.setQuery(queryMultiple);
+                    conexion3.cerrarConexion();
+                    resultado.close();
+                    conexion2.cerrarConexion();
+                }
                 conexion.cerrarConexion();
             } catch (SQLException ex) {
                 Logger.getLogger(Prestamos.class.getName()).log(Level.SEVERE, null, ex);
