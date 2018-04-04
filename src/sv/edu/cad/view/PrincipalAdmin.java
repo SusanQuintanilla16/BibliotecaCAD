@@ -26,9 +26,15 @@ public class PrincipalAdmin extends javax.swing.JFrame
         jMenuAutor = new javax.swing.JMenuItem();
         jMenuClas = new javax.swing.JMenuItem();
         jMenuLibro = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
         jMenuEjemplar = new javax.swing.JMenuItem();
-        saveMenuItem = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuItem6 = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
+        jMenuItem8 = new javax.swing.JMenuItem();
+        jMenuItem9 = new javax.swing.JMenuItem();
         editMenu = new javax.swing.JMenu();
         cutMenuItem = new javax.swing.JMenuItem();
         copyMenuItem = new javax.swing.JMenuItem();
@@ -63,10 +69,10 @@ public class PrincipalAdmin extends javax.swing.JFrame
         fileMenu.setText("Catálogo");
 
         fileMenu1.setMnemonic('f');
-        fileMenu1.setText("Ingreso");
+        fileMenu1.setText("Ingreso ");
 
         jMenuTema.setMnemonic('o');
-        jMenuTema.setText("Tema");
+        jMenuTema.setText("Ingreso Tema");
         jMenuTema.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuTemaActionPerformed(evt);
@@ -75,7 +81,7 @@ public class PrincipalAdmin extends javax.swing.JFrame
         fileMenu1.add(jMenuTema);
 
         jMenuAutor.setMnemonic('s');
-        jMenuAutor.setText("Autor");
+        jMenuAutor.setText("Ingreso Autor");
         jMenuAutor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuAutorActionPerformed(evt);
@@ -83,7 +89,7 @@ public class PrincipalAdmin extends javax.swing.JFrame
         });
         fileMenu1.add(jMenuAutor);
 
-        jMenuClas.setText("Clasificacion");
+        jMenuClas.setText("Ingreso Clasificacion");
         jMenuClas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuClasActionPerformed(evt);
@@ -91,7 +97,7 @@ public class PrincipalAdmin extends javax.swing.JFrame
         });
         fileMenu1.add(jMenuClas);
 
-        jMenuLibro.setText("Libro");
+        jMenuLibro.setText("Ingreso  Libro");
         jMenuLibro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuLibroActionPerformed(evt);
@@ -99,7 +105,31 @@ public class PrincipalAdmin extends javax.swing.JFrame
         });
         fileMenu1.add(jMenuLibro);
 
-        jMenuEjemplar.setText("Ejemplares");
+        jMenuItem1.setText("Ingreso Revista");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        fileMenu1.add(jMenuItem1);
+
+        jMenuItem3.setText("Ingreso  Tesis");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        fileMenu1.add(jMenuItem3);
+
+        jMenuItem5.setText("Ingreso  CD / DVD");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        fileMenu1.add(jMenuItem5);
+
+        jMenuEjemplar.setText("Ingreso Ejemplares");
         jMenuEjemplar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuEjemplarActionPerformed(evt);
@@ -109,17 +139,41 @@ public class PrincipalAdmin extends javax.swing.JFrame
 
         fileMenu.add(fileMenu1);
 
-        saveMenuItem.setMnemonic('s');
-        saveMenuItem.setText("Consulta");
-        saveMenuItem.addActionListener(new java.awt.event.ActionListener() {
+        jMenu2.setText("Consulta");
+
+        jMenuItem6.setText("Libro");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                saveMenuItemActionPerformed(evt);
+                jMenuItem6ActionPerformed(evt);
             }
         });
-        fileMenu.add(saveMenuItem);
+        jMenu2.add(jMenuItem6);
 
-        jMenuItem4.setText("Listado");
-        fileMenu.add(jMenuItem4);
+        jMenuItem7.setText("Revista");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem7);
+
+        jMenuItem8.setText("Tesis");
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem8);
+
+        jMenuItem9.setText("CD /DVD");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem9);
+
+        fileMenu.add(jMenu2);
 
         menuBar.add(fileMenu);
 
@@ -211,7 +265,7 @@ public class PrincipalAdmin extends javax.swing.JFrame
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
+            .addComponent(desktopPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
         );
 
         pack();
@@ -322,10 +376,6 @@ public class PrincipalAdmin extends javax.swing.JFrame
         }
     }//GEN-LAST:event_jMenuEjemplarActionPerformed
 
-    private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_saveMenuItemActionPerformed
-
     private void jingresarPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jingresarPActionPerformed
         // TODO add your handling code here:
         try{
@@ -393,6 +443,104 @@ public class PrincipalAdmin extends javax.swing.JFrame
         // TODO add your handling code here:
     }//GEN-LAST:event_jRenovarActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        try{
+            if(ingresoRevista.bandera==0){
+                ingresoRevista libro = new ingresoRevista();
+                desktopPane.add(libro);
+                libro.show();
+                ingresoRevista.bandera=1;
+            }
+        }catch(Exception ex){   
+            Logger.getLogger(PrincipalAdmin.class.getName()).log(Level.SEVERE,null,ex);
+        }
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        // TODO add your handling code here:
+         try{
+            if(ingresoTesis.bandera==0){
+                ingresoTesis libro = new ingresoTesis();
+                desktopPane.add(libro);
+                libro.show();
+                ingresoTesis.bandera=1;
+            }
+        }catch(Exception ex){   
+            Logger.getLogger(PrincipalAdmin.class.getName()).log(Level.SEVERE,null,ex);
+        }
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        // TODO add your handling code here:
+         try{
+            if(ingresoCDDVD.bandera==0){
+                ingresoCDDVD libro = new ingresoCDDVD();
+                desktopPane.add(libro);
+                libro.show();
+                ingresoCDDVD.bandera=1;
+            }
+        }catch(Exception ex){   
+            Logger.getLogger(PrincipalAdmin.class.getName()).log(Level.SEVERE,null,ex);
+        }
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        // TODO add your handling code here:
+        try{
+            if(busquedaLibro.bandera==0){
+                busquedaLibro libro = new busquedaLibro();
+                desktopPane.add(libro);
+                libro.show();
+                busquedaLibro.bandera=1;
+            }
+        }catch(Exception ex){   
+            Logger.getLogger(PrincipalAdmin.class.getName()).log(Level.SEVERE,null,ex);
+        }
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        // TODO add your handling code here:
+        try{
+            if(busquedaRevista.bandera==0){
+                busquedaRevista libro = new busquedaRevista();
+                desktopPane.add(libro);
+                libro.show();
+                busquedaRevista.bandera=1;
+            }
+        }catch(Exception ex){   
+            Logger.getLogger(PrincipalAdmin.class.getName()).log(Level.SEVERE,null,ex);
+        }
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
+
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+        // TODO add your handling code here:
+        try{
+            if(busquedaTesis.bandera==0){
+                busquedaTesis libro = new busquedaTesis();
+                desktopPane.add(libro);
+                libro.show();
+                busquedaTesis.bandera=1;
+            }
+        }catch(Exception ex){   
+            Logger.getLogger(PrincipalAdmin.class.getName()).log(Level.SEVERE,null,ex);
+        }
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
+
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+        // TODO add your handling code here:
+        try{
+            if(busquedaCDDVD.bandera==0){
+                busquedaCDDVD libro = new busquedaCDDVD();
+                desktopPane.add(libro);
+                libro.show();
+                busquedaCDDVD.bandera=1;
+            }
+        }catch(Exception ex){   
+            Logger.getLogger(PrincipalAdmin.class.getName()).log(Level.SEVERE,null,ex);
+        }
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
+
 
     public static void main(String args[]) 
     {
@@ -415,11 +563,18 @@ public class PrincipalAdmin extends javax.swing.JFrame
     private javax.swing.JMenu helpMenu;
     private javax.swing.JMenu helpMenu1;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuItem jMenuAutor;
     private javax.swing.JMenuItem jMenuClas;
     private javax.swing.JMenuItem jMenuEjemplar;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JMenuItem jMenuLibro;
     private javax.swing.JMenuItem jMenuTema;
     private javax.swing.JMenuItem jRenovar;
@@ -428,7 +583,6 @@ public class PrincipalAdmin extends javax.swing.JFrame
     private javax.swing.JMenuItem jlistarP;
     private javax.swing.JMenuItem jlistarP1;
     private javax.swing.JMenuBar menuBar;
-    private javax.swing.JMenuItem saveMenuItem;
     // End of variables declaration//GEN-END:variables
 
 }

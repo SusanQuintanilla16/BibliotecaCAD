@@ -329,4 +329,151 @@ public class Catalogo {
             Logger.getLogger(Catalogo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+     public void ingresoRevistas(int id,String TituloVariante, String Ejemplar, String Contenido, String Frecuencia, String ISSN)
+    {
+        try 
+        {
+            String query = "INSERT INTO `revista`(`idCatalogo`, `VarianteTitulo`, `Ejemplar`, `Contenido`, `Frecuencia`, `ISSN`) "
+                    + "VALUES (" + id + ",'" + TituloVariante + "' , '" + Ejemplar + "' , '" + Contenido + "' , '" + Frecuencia + 
+                    "' , '" + ISSN + "')";
+            Conexion conexion = new Conexion();
+            conexion.setQuery(query);
+            conexion.cerrarConexion();
+            JOptionPane.showMessageDialog(null, "Revista ingresada correctamente");
+        } 
+        catch (SQLException ex)
+        {
+            Logger.getLogger(Catalogo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void ingresoTesis(int id,String TituloVariante, String RecursoDigital)
+    {
+        try 
+        {
+            String query = "INSERT INTO `tesis`(`idCatalogo`, `VarianteTitulo`, `RecursoDigital`) "
+                    + "VALUES (" + id + ",'" + TituloVariante + "' , '" + RecursoDigital + "' )";
+            Conexion conexion = new Conexion();
+            conexion.setQuery(query);
+            conexion.cerrarConexion();
+            JOptionPane.showMessageDialog(null, "Tesis ingresada correctamente");
+        } 
+        catch (SQLException ex)
+        {
+            Logger.getLogger(Catalogo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    //ingresoCDDVDs
+    public void ingresoCDDVDs(int id,String Duracion, String Size)
+    {
+        try 
+        {
+            String query = "INSERT INTO `dvdcd`(`idCatalogo`, `Duracion`, `Size`) "
+                    + "VALUES (" + id + ",'" + Duracion + "' , '" + Size + "' )";
+            Conexion conexion = new Conexion();
+            conexion.setQuery(query);
+            conexion.cerrarConexion();
+            JOptionPane.showMessageDialog(null, "CD /DVD ingresado correctamente");
+        } 
+        catch (SQLException ex)
+        {
+            Logger.getLogger(Catalogo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+     //modificar libro
+    
+    public void EditarInfoLibro(String ID, String descripcion, String titulo, String edicion, String notas, String resumen, String ISBN, String editorial) throws SQLException
+    {      
+        
+        try
+        {
+              int id =  Integer.parseInt(ID);
+              Conexion con = new Conexion(); 
+              con.setQuery("UPDATE catalogo SET Descripcion = '"+ descripcion +  "', Titulo = '" + titulo + 
+                      "', Edicion = '" + edicion + "', Notas = '" + notas + "', Resumen = '" + resumen+ "' WHERE idCatalogo = " + id);  
+              Conexion con2 = new Conexion();      
+              con2.setQuery("UPDATE libro SET ISBN = '"+ ISBN + "' , Publisher = '" + editorial + "' WHERE idCatalogo = " + id);  
+              con2.cerrarConexion();
+              con.cerrarConexion();           
+              JOptionPane.showMessageDialog(null,"Libro Actualizado Exitosamente");          
+        }
+        catch(SQLException ex)
+        {
+            Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    //EditarInfoRevista
+    public void EditarInfoRevista(String ID, String titulo, String v_titulo, String edicion, String notas, String resumen, String ISSN, String frecuencia,
+    String ejemplar, String contenido, String descripcion) throws SQLException
+    {      
+        
+        try
+        {
+              int id =  Integer.parseInt(ID);
+              Conexion con = new Conexion(); 
+              con.setQuery("UPDATE catalogo SET Titulo = '"+ titulo +  "', Edicion = '" + edicion + 
+                      "', Descripcion = '" + descripcion + "', Notas = '" + notas + "', Resumen = '" + resumen+ "' WHERE idCatalogo = " + id);  
+              Conexion con2 = new Conexion();      
+              con2.setQuery("UPDATE revista SET VarianteTitulo = '"+ v_titulo + "' , Ejemplar = '" + ejemplar + 
+                      "', Contenido = '" + contenido + "', Frecuencia = '" + frecuencia + "', ISSN = '" + ISSN + "' WHERE idCatalogo = " + id);  
+              con2.cerrarConexion();
+              con.cerrarConexion();           
+              JOptionPane.showMessageDialog(null,"Revista Actualizada Exitosamente");          
+        }
+        catch(SQLException ex)
+        {
+            Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    //EditarInfoTesis
+    public void EditarInfoTesis(String ID, String titulo, String v_titulo, String edicion, String descripcion, String notas, 
+            String resumen, String recurso) throws SQLException
+    {      
+        
+        try
+        {
+              int id =  Integer.parseInt(ID);
+              Conexion con = new Conexion(); 
+              con.setQuery("UPDATE catalogo SET Titulo = '"+ titulo +  "', Edicion = '" + edicion + 
+                      "', Descripcion = '" + descripcion + "', Notas = '" + notas + "', Resumen = '" + resumen+ "' WHERE idCatalogo = " + id);  
+              Conexion con2 = new Conexion();      
+              con2.setQuery("UPDATE tesis SET VarianteTitulo = '"+ v_titulo + "' , RecursoDigital = '" + recurso + "' WHERE idCatalogo = " + id);  
+              con2.cerrarConexion();
+              con.cerrarConexion();           
+              JOptionPane.showMessageDialog(null,"Tesis Actualizada Exitosamente");          
+        }
+        catch(SQLException ex)
+        {
+            Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    //EditarInfoCDDVD
+    public void EditarInfoCDDVD(String ID, String titulo, String edicion, String descripcion, String notas, 
+            String resumen, String duracion, String size) throws SQLException
+    {      
+        
+        try
+        {
+              int id =  Integer.parseInt(ID);
+              Conexion con = new Conexion(); 
+              con.setQuery("UPDATE catalogo SET Titulo = '"+ titulo +  "', Edicion = '" + edicion + 
+                      "', Descripcion = '" + descripcion + "', Notas = '" + notas + "', Resumen = '" + resumen+ "' WHERE idCatalogo = " + id);  
+              Conexion con2 = new Conexion();      
+              con2.setQuery("UPDATE dvdcd SET Duracion = '"+ duracion + "' , Size = '" + size + "' WHERE idCatalogo = " + id);  
+              con2.cerrarConexion();
+              con.cerrarConexion();           
+              JOptionPane.showMessageDialog(null,"CD / DVD Actualizado Exitosamente");          
+        }
+        catch(SQLException ex)
+        {
+            Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
 }

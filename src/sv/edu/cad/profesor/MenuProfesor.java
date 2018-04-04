@@ -40,8 +40,6 @@ public class MenuProfesor extends javax.swing.JFrame {
         editMenu = new javax.swing.JMenu();
         cutMenuItem = new javax.swing.JMenuItem();
         copyMenuItem = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        helpMenu = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -98,19 +96,7 @@ public class MenuProfesor extends javax.swing.JFrame {
         });
         editMenu.add(copyMenuItem);
 
-        jMenuItem1.setText("Renovar");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
-            }
-        });
-        editMenu.add(jMenuItem1);
-
         menuBar.add(editMenu);
-
-        helpMenu.setMnemonic('h');
-        helpMenu.setText("Ayuda");
-        menuBar.add(helpMenu);
 
         setJMenuBar(menuBar);
 
@@ -155,14 +141,6 @@ public class MenuProfesor extends javax.swing.JFrame {
         renovacioncita.show();
     }//GEN-LAST:event_copyMenuItemActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
-        renovacion_profesor renovacioncita;
-        renovacioncita = new renovacion_profesor(Carnetcito);
-        desktopPane.add(renovacioncita);
-        renovacioncita.show();
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -204,8 +182,6 @@ public class MenuProfesor extends javax.swing.JFrame {
     public static javax.swing.JDesktopPane desktopPane;
     private javax.swing.JMenu editMenu;
     private javax.swing.JMenu fileMenu;
-    private javax.swing.JMenu helpMenu;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem openMenuItem;
     private javax.swing.JMenuItem saveMenuItem;
