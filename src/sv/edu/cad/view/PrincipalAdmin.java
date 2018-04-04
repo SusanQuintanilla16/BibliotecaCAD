@@ -34,6 +34,7 @@ public class PrincipalAdmin extends javax.swing.JFrame
         copyMenuItem = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
         jingresarP = new javax.swing.JMenuItem();
+        jRenovar = new javax.swing.JMenuItem();
         jlistarP = new javax.swing.JMenuItem();
         helpMenu1 = new javax.swing.JMenu();
         jdevolver = new javax.swing.JMenuItem();
@@ -156,6 +157,15 @@ public class PrincipalAdmin extends javax.swing.JFrame
             }
         });
         helpMenu.add(jingresarP);
+
+        jRenovar.setMnemonic('c');
+        jRenovar.setText("Renovar");
+        jRenovar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRenovarActionPerformed(evt);
+            }
+        });
+        helpMenu.add(jRenovar);
 
         jlistarP.setMnemonic('a');
         jlistarP.setText("Listado");
@@ -365,7 +375,23 @@ public class PrincipalAdmin extends javax.swing.JFrame
 
     private void jlistarP1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jlistarP1ActionPerformed
         // TODO add your handling code here:
+        try{
+            if(listadoDevolucion.bandera==0)
+            {
+                listadoDevolucion listado = new listadoDevolucion();
+                desktopPane.add(listado);
+                listado.show();
+                listadoDevolucion.bandera=1;
+            }
+        }catch(Exception ex)
+        {
+            Logger.getLogger(PrincipalAdmin.class.getName()).log(Level.SEVERE,null,ex);
+        }
     }//GEN-LAST:event_jlistarP1ActionPerformed
+
+    private void jRenovarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRenovarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jRenovarActionPerformed
 
 
     public static void main(String args[]) 
@@ -396,6 +422,7 @@ public class PrincipalAdmin extends javax.swing.JFrame
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuLibro;
     private javax.swing.JMenuItem jMenuTema;
+    private javax.swing.JMenuItem jRenovar;
     private javax.swing.JMenuItem jdevolver;
     private javax.swing.JMenuItem jingresarP;
     private javax.swing.JMenuItem jlistarP;

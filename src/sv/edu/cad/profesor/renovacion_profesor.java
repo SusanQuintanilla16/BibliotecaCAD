@@ -60,6 +60,11 @@ public class renovacion_profesor extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(tabladatos);
 
         Renovacion.setText("Renovar Prestamo");
+        Renovacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RenovacionActionPerformed(evt);
+            }
+        });
 
         cancelar.setText("Cancelar");
         cancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -113,6 +118,10 @@ public class renovacion_profesor extends javax.swing.JInternalFrame {
             Logger.getLogger(Consultar.class.getName()).log(Level.SEVERE,null,e);
         }
     }//GEN-LAST:event_cancelarActionPerformed
+
+    private void RenovacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RenovacionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_RenovacionActionPerformed
 
     private void llenar_tabladedatos(String carnetcito)
     {

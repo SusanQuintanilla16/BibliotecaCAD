@@ -432,7 +432,8 @@ public class Prestamos {
                         + " inner join ejemplar on ejemplar.idEjemplar=prestamo.idEjemplar "
                         + "inner join catalogo on ejemplar.idCatalogo=catalogo.idCatalogo "
                         + "inner join usuario on usuario.idUsuario=prestamo.idUsuario inner "
-                        + "join material on material.idMaterial= catalogo.idMaterial");
+                        + "join material on material.idMaterial= catalogo.idMaterial where "
+                        + " prestamo.estadoprestamo = 'PRESTADO'");
                 ResultSet prestamo = conexion.getRs();
                 while(prestamo.next())
                 {
@@ -466,7 +467,8 @@ public class Prestamos {
                         + "inner join catalogo on ejemplar.idCatalogo=catalogo.idCatalogo "
                         + "inner join usuario on usuario.idUsuario=prestamo.idUsuario inner "
                         + "join material on material.idMaterial= catalogo.idMaterial where "
-                        + "usuario.Carnet like '"+carnet+"%'");
+                        + "usuario.Carnet like '"+carnet+"%' and  "
+                        + " prestamo.estadoprestamo = 'PRESTADO'");
                 ResultSet prestamo = conexion.getRs();
                 while(prestamo.next())
                 {
@@ -483,6 +485,76 @@ public class Prestamos {
             Logger.getLogger(Catalogo.class.getName()).log(Level.SEVERE, null, ex);
             }
     }
+    
+    //Método para cargar las devoluciones
+    public void cargarDevoluciones(JTable tabla){
+            try
+            {
+                String[] columnas = {"ID","Título","Material","Carnet","Fecha Préstamo",
+                    "Fecha Devolución","Estado"};
+                Object [][] data = null;
+                DefaultTableModel modelo = new DefaultTableModel(data, columnas);
+                Conexion conexion = new Conexion();
+                conexion.setRs("select prestamo.idPrestamo,catalogo.Titulo,"
+                        + "material.NombreMaterial,usuario.Carnet,prestamo.FechaPrestamo"
+                        + ",prestamo.FechaDevolucion,prestamo.EstadoPrestamo from prestamo"
+                        + " inner join ejemplar on ejemplar.idEjemplar=prestamo.idEjemplar "
+                        + "inner join catalogo on ejemplar.idCatalogo=catalogo.idCatalogo "
+                        + "inner join usuario on usuario.idUsuario=prestamo.idUsuario inner "
+                        + "join material on material.idMaterial= catalogo.idMaterial where "
+                        + " prestamo.estadoprestamo = 'DEVUELTO'");
+                ResultSet prestamo = conexion.getRs();
+                while(prestamo.next())
+                {
+                    Object[] row={prestamo.getInt(1),prestamo.getString(2),
+                    prestamo.getString(3),prestamo.getString(4),prestamo.getString(5),
+                    prestamo.getString(6),prestamo.getString(7)};
+                    modelo.addRow(row);
+                }
+                prestamo.close();
+                conexion.cerrarConexion();
+                tabla.setModel(modelo);
+                tabla.setEnabled(false);
+            } catch (SQLException ex) {
+            Logger.getLogger(Catalogo.class.getName()).log(Level.SEVERE, null, ex);
+            }
+    }
+    
+    //Método para cargar los préstamos
+    public void cargaDevolucionCarnet(JTable tabla,String carnet){
+        try
+        {
+                String[] columnas = {"ID","Título","Material","Carnet","Fecha Préstamo",
+                    "Fecha Devolución","Estado"};
+                Object [][] data = null;
+                DefaultTableModel modelo = new DefaultTableModel(data, columnas);
+                Conexion conexion = new Conexion();
+                conexion.setRs("select prestamo.idPrestamo,catalogo.Titulo,"
+                        + "material.NombreMaterial,usuario.Carnet,prestamo.FechaPrestamo"
+                        + ",prestamo.FechaDevolucion,prestamo.EstadoPrestamo from prestamo"
+                        + " inner join ejemplar on ejemplar.idEjemplar=prestamo.idEjemplar "
+                        + "inner join catalogo on ejemplar.idCatalogo=catalogo.idCatalogo "
+                        + "inner join usuario on usuario.idUsuario=prestamo.idUsuario inner "
+                        + "join material on material.idMaterial= catalogo.idMaterial where "
+                        + "usuario.Carnet like '"+carnet+"%' and  "
+                        + " prestamo.estadoprestamo = 'DEVUELTO'");
+                ResultSet prestamo = conexion.getRs();
+                while(prestamo.next())
+                {
+                    Object[] row={prestamo.getInt(1),prestamo.getString(2),
+                    prestamo.getString(3),prestamo.getString(4),prestamo.getString(5),
+                    prestamo.getString(6),prestamo.getString(7)};
+                    modelo.addRow(row);
+                }
+                prestamo.close();
+                conexion.cerrarConexion();
+                tabla.setModel(modelo);
+                tabla.setEnabled(false);
+            } catch (SQLException ex) {
+            Logger.getLogger(Catalogo.class.getName()).log(Level.SEVERE, null, ex);
+            }
+    }
+    
     
     //Función para realizar la devolución
     public boolean ingresoDevolucion(String Descripcion){
