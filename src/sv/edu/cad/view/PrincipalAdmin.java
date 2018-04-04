@@ -391,6 +391,18 @@ public class PrincipalAdmin extends javax.swing.JFrame
 
     private void jRenovarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRenovarActionPerformed
         // TODO add your handling code here:
+        try{
+            if(ingresarRenovacion.bandera==0)
+            {
+                ingresarRenovacion listado = new ingresarRenovacion();
+                desktopPane.add(listado);
+                listado.show();
+                ingresarRenovacion.bandera=1;
+            }
+        }catch(Exception ex)
+        {
+            Logger.getLogger(PrincipalAdmin.class.getName()).log(Level.SEVERE,null,ex);
+        }
     }//GEN-LAST:event_jRenovarActionPerformed
 
 

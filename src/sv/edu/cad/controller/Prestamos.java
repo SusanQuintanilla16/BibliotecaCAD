@@ -191,6 +191,68 @@ public class Prestamos {
     }
     
     //Método para ver los préstamos en la tabla
+    public void muestraPrestamosRenovacion(JTable tabla, String carnet){
+        try
+        {
+            //fechaPrestamos = new ArrayList<String>();
+            //montoPrestamos = new ArrayList<Float>();
+            //idPrestamos = new ArrayList <Integer>();
+            String[] columnas = {"ID Alumno","Título","Fecha Préstamo","Fecha Devolución",
+                "Monto","ID Prestamo"," Duracion"};
+            Object [][] data = null;
+            DefaultTableModel modelo = new DefaultTableModel(data, columnas);
+            Conexion conexion = new Conexion();
+            conexion.setRs("select usuario.idUsuario"
+                    + ",catalogo.Titulo,prestamo.FechaPrestamo,prestamo.FechaDevolucion,"
+                    + "prestamo.montodia,prestamo.idPrestamo,prestamo.duraciondias from prestamo inner join "
+                    + "ejemplar on ejemplar.idEjemplar=prestamo.idEjemplar inner join "
+                    + "catalogo on catalogo.idCatalogo=ejemplar.idCatalogo inner join "
+                    + "usuario on usuario.idUsuario=prestamo.idUsuario "
+                    + "where usuario.Carnet='"+carnet+"' and prestamo."
+                    + "EstadoPrestamo=\"PRESTADO\"");
+            ResultSet catalogo = conexion.getRs();
+            while(catalogo.next())
+            {
+                Object[] row={catalogo.getInt(1),
+                catalogo.getString(2),catalogo.getString(3),catalogo.getString(4),
+                catalogo.getString(5),catalogo.getString(6),catalogo.getInt(7)};
+                modelo.addRow(row);
+                /*fechaPrestamos.add(catalogo.getString(4));
+                montoPrestamos.add(catalogo.getFloat(5));
+                idPrestamos.add(catalogo.getInt(6));*/
+            }
+            catalogo.close();
+            conexion.cerrarConexion();
+            tabla.setModel(modelo);
+            //tabla.setEnabled(false);
+        } catch (SQLException ex) {
+            Logger.getLogger(Catalogo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    //Método para la renovación
+    public void Renovar(String idrenovar,String dias){
+        try {
+            LocalDate today = LocalDate.now();
+            LocalDate devolucion = today.plusDays(Integer.parseInt(dias));
+            String query = "INSERT INTO `renovacion`(`idPrestamo`,"
+                    + " `FechaRenovacion`, `FechaInicio`, `FechaVencimiento`) VALUES ("
+                    + idrenovar+",'"+today.toString()+"','"+today.toString()+"','"
+                    + devolucion.toString()+"')";
+            Conexion conexion = new Conexion();
+            conexion.setQuery(query);
+            query = "update prestamo set FechaPrestamo='"+today.toString()+"' , "
+                    +"FechaDevolucion = '"+devolucion.toString()+"' where idPrestamo = "
+                    +idrenovar;
+            JOptionPane.showMessageDialog(null, "Prestamo renovado");
+            conexion.setQuery(query);
+            conexion.cerrarConexion();
+        } catch (SQLException ex) {
+            Logger.getLogger(Prestamos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    //Método para ver los préstamos en la tabla
     public void muestraPrestamos(JTable tabla){
         try
         {
