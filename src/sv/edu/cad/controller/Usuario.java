@@ -38,8 +38,8 @@ public class Usuario
         try
         {
             Conexion conexion = new Conexion();
-            conexion.setQuery("INSERT INTO usuario (idCategoria, Nombre, Apellido, Carnet, Password) VALUES ("+ 
-                    categoria+",'"+ nombre+"','"+apellido +"','"+carnet+"','"+pass+"')");
+            conexion.setQuery("INSERT INTO usuario (idCategoria, Nombre, Apellido, Carnet, Password,Mora) VALUES ("+ 
+                    categoria+",'"+ nombre+"','"+apellido +"','"+carnet+"','"+pass+"',0)");
             
             conexion.cerrarConexion();
             JOptionPane.showMessageDialog(null,"Usuario Ingresado Exitosamente");

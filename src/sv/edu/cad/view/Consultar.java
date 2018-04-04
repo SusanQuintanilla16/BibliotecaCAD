@@ -35,7 +35,6 @@ public class Consultar extends javax.swing.JFrame {
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
         exitMenuItem = new javax.swing.JMenuItem();
@@ -54,14 +53,6 @@ public class Consultar extends javax.swing.JFrame {
             }
         });
         fileMenu.add(jMenuItem1);
-
-        jMenuItem2.setText("Consultar Titulo");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
-            }
-        });
-        fileMenu.add(jMenuItem2);
 
         jMenuItem3.setText("Consultar Tema");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
@@ -124,21 +115,6 @@ public class Consultar extends javax.swing.JFrame {
             Logger.getLogger(Consultar.class.getName()).log(Level.SEVERE,null,ex);
         }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
-
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        // TODO add your handling code here:
-        try{
-            if(ConsultarTitulo.bandera==0){
-                ConsultarTitulo consulta = new ConsultarTitulo();
-                desktopPane.add(consulta);
-                consulta.show();
-                ConsultarTitulo.bandera=1;
-            }
-        }catch(Exception ex){
-            
-            Logger.getLogger(Consultar.class.getName()).log(Level.SEVERE,null,ex);
-        }
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         // TODO add your handling code here:
@@ -211,7 +187,6 @@ public class Consultar extends javax.swing.JFrame {
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuBar menuBar;

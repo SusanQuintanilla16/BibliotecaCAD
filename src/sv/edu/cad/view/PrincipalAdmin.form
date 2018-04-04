@@ -42,13 +42,13 @@
             <Menu class="javax.swing.JMenu" name="fileMenu1">
               <Properties>
                 <Property name="mnemonic" type="int" value="102"/>
-                <Property name="text" type="java.lang.String" value="Ingreso"/>
+                <Property name="text" type="java.lang.String" value="Ingreso "/>
               </Properties>
               <SubComponents>
                 <MenuItem class="javax.swing.JMenuItem" name="jMenuTema">
                   <Properties>
                     <Property name="mnemonic" type="int" value="111"/>
-                    <Property name="text" type="java.lang.String" value="Tema"/>
+                    <Property name="text" type="java.lang.String" value="Ingreso Tema"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuTemaActionPerformed"/>
@@ -57,7 +57,7 @@
                 <MenuItem class="javax.swing.JMenuItem" name="jMenuAutor">
                   <Properties>
                     <Property name="mnemonic" type="int" value="115"/>
-                    <Property name="text" type="java.lang.String" value="Autor"/>
+                    <Property name="text" type="java.lang.String" value="Ingreso Autor"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuAutorActionPerformed"/>
@@ -65,7 +65,7 @@
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="jMenuClas">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Clasificacion"/>
+                    <Property name="text" type="java.lang.String" value="Ingreso Clasificacion"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuClasActionPerformed"/>
@@ -73,15 +73,39 @@
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="jMenuLibro">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Libro"/>
+                    <Property name="text" type="java.lang.String" value="Ingreso  Libro"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuLibroActionPerformed"/>
                   </Events>
                 </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Ingreso Revista"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem1ActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItem3">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Ingreso  Tesis"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem3ActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItem5">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Ingreso  CD / DVD"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem5ActionPerformed"/>
+                  </Events>
+                </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="jMenuEjemplar">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Ejemplares"/>
+                    <Property name="text" type="java.lang.String" value="Ingreso Ejemplares"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuEjemplarActionPerformed"/>
@@ -89,20 +113,45 @@
                 </MenuItem>
               </SubComponents>
             </Menu>
-            <MenuItem class="javax.swing.JMenuItem" name="saveMenuItem">
+            <Menu class="javax.swing.JMenu" name="jMenu2">
               <Properties>
-                <Property name="mnemonic" type="int" value="115"/>
                 <Property name="text" type="java.lang.String" value="Consulta"/>
               </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saveMenuItemActionPerformed"/>
-              </Events>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem4">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Listado"/>
-              </Properties>
-            </MenuItem>
+              <SubComponents>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItem6">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Libro"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem6ActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItem7">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Revista"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem7ActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItem8">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Tesis"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem8ActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItem9">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="CD /DVD"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem9ActionPerformed"/>
+                  </Events>
+                </MenuItem>
+              </SubComponents>
+            </Menu>
           </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="editMenu">
@@ -223,7 +272,7 @@
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="desktopPane" pref="279" max="32767" attributes="0"/>
+          <Component id="desktopPane" alignment="1" pref="279" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
