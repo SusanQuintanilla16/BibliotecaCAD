@@ -40,6 +40,7 @@ public class MenuProfesor extends javax.swing.JFrame {
         editMenu = new javax.swing.JMenu();
         cutMenuItem = new javax.swing.JMenuItem();
         copyMenuItem = new javax.swing.JMenuItem();
+        renovacion = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -96,6 +97,14 @@ public class MenuProfesor extends javax.swing.JFrame {
         });
         editMenu.add(copyMenuItem);
 
+        renovacion.setText("Renovar");
+        renovacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                renovacionActionPerformed(evt);
+            }
+        });
+        editMenu.add(renovacion);
+
         menuBar.add(editMenu);
 
         setJMenuBar(menuBar);
@@ -141,6 +150,14 @@ public class MenuProfesor extends javax.swing.JFrame {
         renovacioncita.show();
     }//GEN-LAST:event_copyMenuItemActionPerformed
 
+    private void renovacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_renovacionActionPerformed
+        // TODO add your handling code here:
+        renovacion_profesor renovacioncita;
+        renovacioncita = new renovacion_profesor(Carnetcito);
+        desktopPane.add(renovacioncita);
+        renovacioncita.show();
+    }//GEN-LAST:event_renovacionActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -184,6 +201,7 @@ public class MenuProfesor extends javax.swing.JFrame {
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem openMenuItem;
+    private javax.swing.JMenuItem renovacion;
     private javax.swing.JMenuItem saveMenuItem;
     // End of variables declaration//GEN-END:variables
 

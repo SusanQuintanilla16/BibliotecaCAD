@@ -24,7 +24,7 @@ public class renovacion_profesor extends javax.swing.JInternalFrame {
      * Creates new form renovacion_profesor
      */
     
-    String Carnetcito;
+    public String Carnetcito;
     
     public renovacion_profesor(String carnet) {
         initComponents();
@@ -121,6 +121,33 @@ public class renovacion_profesor extends javax.swing.JInternalFrame {
 
     private void RenovacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RenovacionActionPerformed
         // TODO add your handling code here:
+        try{
+           Conexion conexion = new Conexion();
+            String sql = "Select usuario.Carnet, ejemplar.idEjemplar, catalogo.Titulo, tema.Tema, autor.Nombre, autor.Apellido, material.NombreMaterial, prestamo.idPrestamo, prestamo.FechaDevolucion, estado.Estado " +
+                         "From usuario, catalogo, tema, material, estado, autor, prestamo, ejemplar where usuario.Carnet = '" + Carnetcito + "' and estado.Estado = 'PRESTADO'";
+            tabladatos.removeAll();
+            String columna[] = {"Carnet", "ID Ejemplar","Titulo", "Tema", "Nombre Autor", "Apellido Autor" ,"Material","ID Prestamo","Fecha Devolucion", "Estado"};
+            DefaultTableModel tabladatosmod = new DefaultTableModel(null,columna);
+            conexion.setRs(sql);
+            ResultSet resultadito = conexion.getRs();
+            Object datos[] = new Object[10];
+            while(resultadito.next()){
+               for(int i = 0; i < 10; i++)
+               {
+                   datos[i] = resultadito.getObject(i + 1);
+               }
+               tabladatosmod.addRow(datos);
+            }
+            resultadito.close();
+            
+            conexion.cerrarConexion();
+            tabladatos.setModel(tabladatosmod);
+            JOptionPane.showMessageDialog(null,"Su material ha sido renovado con exito.");
+        } 
+        
+        catch (SQLException ex) {
+            Logger.getLogger(Catalogo.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_RenovacionActionPerformed
 
     private void llenar_tabladedatos(String carnetcito)
@@ -143,6 +170,7 @@ public class renovacion_profesor extends javax.swing.JInternalFrame {
                tabladatosmod.addRow(datos);
             }
             resultadito.close();
+            
             conexion.cerrarConexion();
             tabladatos.setModel(tabladatosmod);
             
