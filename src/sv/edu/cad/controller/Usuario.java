@@ -37,12 +37,26 @@ public class Usuario
     {
         try
         {
+            Conexion con = new Conexion();
+            con.setRs("SELECT Carnet FROM usuario WHERE Carnet = '" + carnet.toUpperCase() +"'");
+            ResultSet resultado = con.getRs();
+            
+            if(resultado.next())
+            {
+             JOptionPane.showMessageDialog(null, "Este usuario ya existe");
+            }
+            else
+            {
+            
+            
+            
             Conexion conexion = new Conexion();
             conexion.setQuery("INSERT INTO usuario (idCategoria, Nombre, Apellido, Carnet, Password,Mora) VALUES ("+ 
                     categoria+",'"+ nombre+"','"+apellido +"','"+carnet+"','"+pass+"',0)");
             
             conexion.cerrarConexion();
             JOptionPane.showMessageDialog(null,"Usuario Ingresado Exitosamente");
+            }
             
         
         }

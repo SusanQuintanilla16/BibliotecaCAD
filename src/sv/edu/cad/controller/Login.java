@@ -16,8 +16,11 @@ public class Login
      String idcategoria = "";
         try
         {
-           Conexion con1 = new Conexion(); 
-            con1.setRs("SELECT idCategoria FROM usuario WHERE Carnet = '" + carnet + "' AND Password = '" + pass + "'");
+            
+            
+            
+            Conexion con1 = new Conexion(); 
+            con1.setRs("SELECT idCategoria FROM usuario WHERE Carnet = '" + carnet.toUpperCase() + "' AND Password = '" + pass + "'");
             ResultSet resultado = (ResultSet) con1.getRs(); //obtenemos los valores devueltos
             resultado.next(); 
             idcategoria = resultado.getString(1); 
